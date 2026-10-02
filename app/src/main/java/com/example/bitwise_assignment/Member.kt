@@ -8,7 +8,8 @@ data class Member(
     val hobby: List<String>,
     val dream: String,
     val motto: String,
-    val photoResId: Int
+    val photoResId: Int,
+    val videoResId: Int
 )
 
 object MemberData {
@@ -21,7 +22,8 @@ object MemberData {
             hobby = listOf("Menggambar", "Membaca"),
             dream = "UI/UX Designer",
             motto = "Suka mencoba hal-hal baru dan terus belajar.",
-            photoResId = R.drawable.razumikhin
+            photoResId = R.drawable.razumikhin,
+            videoResId = R.raw.intro1
         ),
         Member(
             id = 1,
@@ -31,7 +33,8 @@ object MemberData {
             hobby = listOf("Main game", "Ngoding"),
             dream = "Android Developer",
             motto = "Pantang menyerah sebelum error hilang.",
-            photoResId = R.drawable.raskolnikov
+            photoResId = R.drawable.raskolnikov,
+            videoResId = R.raw.intro2
         ),
         Member(
             id = 2,
@@ -41,7 +44,8 @@ object MemberData {
             hobby = listOf("Menggambar", "Menulis"),
             dream = "Product Manager",
             motto = "Ide yang baik harus dieksekusi dengan baik.",
-            photoResId = R.drawable.rintarou
+            photoResId = R.drawable.rintarou,
+            videoResId = R.raw.intro1
         ),
         Member(
             id = 3,
@@ -51,7 +55,8 @@ object MemberData {
             hobby = listOf("Olahraga", "Musik"),
             dream = "Backend Engineer",
             motto = "Stabilitas adalah kunci dari segalanya.",
-            photoResId = R.drawable.dazai
+            photoResId = R.drawable.dazai,
+            videoResId = R.raw.intro2
         )
     )
 
