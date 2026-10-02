@@ -2,46 +2,51 @@ package com.example.bitwise_assignment
 
 data class Member(
     val id: Int,
-    val name: String,
-    val role: String,
-    val hobby: String,
+    val fullName: String,
+    val nickname: String,
+    val nim: String,
+    val hobby: List<String>,
     val dream: String,
-    val about: String
+    val motto: String
 )
 
 object MemberData {
     val members = listOf(
         Member(
             id = 0,
-            name = "Alya",
-            role = "Informatics Student",
-            hobby = "Membaca & fotografi",
+            fullName = "Alya Maharani",
+            nickname = "Alya",
+            nim = "240001",
+            hobby = listOf("Membaca", "Fotografi"),
             dream = "UI/UX Designer",
-            about = "Suka mencoba hal-hal baru dan tertarik dengan desain digital."
+            motto = "Suka mencoba hal-hal baru dan terus belajar."
         ),
         Member(
             id = 1,
-            name = "Bima",
-            role = "Informatics Student",
-            hobby = "Main game & ngoding",
+            fullName = "Bima Saputra",
+            nickname = "Bima",
+            nim = "240002",
+            hobby = listOf("Main game", "Ngoding"),
             dream = "Android Developer",
-            about = "Senang membangun aplikasi kecil untuk memecahkan masalah sehari-hari."
+            motto = "Pantang menyerah sebelum error hilang."
         ),
         Member(
             id = 2,
-            name = "Citra",
-            role = "Informatics Student",
-            hobby = "Menggambar & menulis",
+            fullName = "Citra Lestari",
+            nickname = "Citra",
+            nim = "240003",
+            hobby = listOf("Menggambar", "Menulis"),
             dream = "Product Manager",
-            about = "Suka mengatur ide dan memastikan tim bergerak ke arah yang sama."
+            motto = "Ide yang baik harus dieksekusi dengan baik."
         ),
         Member(
             id = 3,
-            name = "Daffa",
-            role = "Informatics Student",
-            hobby = "Olahraga & musik",
+            fullName = "Daffa Pratama",
+            nickname = "Daffa",
+            nim = "240004",
+            hobby = listOf("Olahraga", "Musik"),
             dream = "Backend Engineer",
-            about = "Tertarik dengan sistem server, API, dan keamanan data."
+            motto = "Stabilitas adalah kunci dari segalanya."
         )
     )
 

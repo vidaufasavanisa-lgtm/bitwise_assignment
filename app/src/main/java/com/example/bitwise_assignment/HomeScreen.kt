@@ -66,7 +66,7 @@ fun AppHeader() {
 fun HomeScreen(onMemberClick: (Int) -> Unit) {
     var query by remember { mutableStateOf("") }
     val filtered = MemberData.members.filter {
-        it.name.contains(query, ignoreCase = true)
+        it.nickname.contains(query, ignoreCase = true)
     }
 
     LazyVerticalGrid(
@@ -168,15 +168,15 @@ fun MemberCard(member: Member, onClick: () -> Unit) {
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    member.name.first().uppercase(),
+                    member.nickname.first().uppercase(),
                     fontSize = 36.sp,
                     fontWeight = FontWeight.ExtraBold,
                     color = PurpleDark
                 )
             }
             Spacer(Modifier.height(12.dp))
-            Text(member.name, fontWeight = FontWeight.Bold, fontSize = 16.sp, color = TextDark)
-            Text(member.role, fontSize = 12.sp, color = TextGray)
+            Text(member.nickname, fontWeight = FontWeight.Bold, fontSize = 16.sp, color = TextDark)
+            Text(member.nim, fontSize = 12.sp, color = TextGray)
             Spacer(Modifier.height(10.dp))
 
             // Pill "View Profile →"

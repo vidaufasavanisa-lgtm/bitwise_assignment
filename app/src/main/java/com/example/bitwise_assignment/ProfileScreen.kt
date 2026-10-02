@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -60,7 +61,7 @@ fun ProfileScreen(memberId: Int, onBack: () -> Unit) {
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    member.name.first().uppercase(),
+                    member.nickname.first().uppercase(),
                     fontSize = 40.sp,
                     fontWeight = FontWeight.ExtraBold,
                     color = PurpleDark
@@ -68,8 +69,8 @@ fun ProfileScreen(memberId: Int, onBack: () -> Unit) {
             }
             Spacer(Modifier.width(18.dp))
             Column {
-                Text(member.name, fontSize = 28.sp, fontWeight = FontWeight.ExtraBold, color = TextDark)
-                Text(member.role, fontSize = 15.sp, color = TextGray)
+                Text(member.nickname, fontSize = 28.sp, fontWeight = FontWeight.ExtraBold, color = TextDark)
+                Text(member.nim, fontSize = 15.sp, color = TextGray)
             }
         }
         Spacer(Modifier.height(24.dp))
@@ -82,13 +83,38 @@ fun ProfileScreen(memberId: Int, onBack: () -> Unit) {
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp)) {
-                InfoRow("Nama", member.name)
+                InfoRow("Nama Lengkap", member.fullName)
                 HorizontalDivider(color = BorderColor)
-                InfoRow("Hobi", member.hobby)
+                InfoRow("Nama Panggilan", member.nickname)
+                HorizontalDivider(color = BorderColor)
+                Column(modifier = Modifier.padding(vertical = 14.dp)) {
+                    Text("Hobi", fontSize = 12.sp, color = TextGray)
+                    Spacer(Modifier.height(8.dp))
+                    Row(
+                        modifier = Modifier.horizontalScroll(rememberScrollState()),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        member.hobby.forEach { tag ->
+                            Box(
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(16.dp))
+                                    .background(PurpleSoft)
+                                    .padding(horizontal = 12.dp, vertical = 6.dp)
+                            ) {
+                                Text(
+                                    text = tag,
+                                    fontSize = 13.sp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = PurpleDark
+                                )
+                            }
+                        }
+                    }
+                }
                 HorizontalDivider(color = BorderColor)
                 InfoRow("Cita-cita", member.dream)
                 HorizontalDivider(color = BorderColor)
-                InfoRow("Tentang saya", member.about)
+                InfoRow("Motto", member.motto)
             }
         }
     }
