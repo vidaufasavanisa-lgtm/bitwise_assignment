@@ -11,7 +11,11 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
+import androidx.compose.foundation.Image
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,45 +29,54 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+// ---- Tema ----
+val LocalDarkTheme = compositionLocalOf { false }
+
 // ---- Warna yang dipakai di seluruh aplikasi ----
-val BgColor = Color(0xFFF5F6FA)
+val BgColor: Color @Composable get() = if (LocalDarkTheme.current) Color(0xFF121212) else Color(0xFFF5F6FA)
 val Purple = Color(0xFF6C5CE7)
-val PurpleDark = Color(0xFF4B3FB5)
-val PurpleSoft = Color(0xFFEDE9FE)
-val TextDark = Color(0xFF111827)
-val TextGray = Color(0xFF6B7280)
-val BorderColor = Color(0xFFE5E7EB)
+val PurpleDark: Color @Composable get() = if (LocalDarkTheme.current) Color(0xFF8C7FF0) else Color(0xFF4B3FB5)
+val PurpleSoft: Color @Composable get() = if (LocalDarkTheme.current) Color(0xFF2D245B) else Color(0xFFEDE9FE)
+val TextDark: Color @Composable get() = if (LocalDarkTheme.current) Color(0xFFF9FAFB) else Color(0xFF111827)
+val TextGray: Color @Composable get() = if (LocalDarkTheme.current) Color(0xFF9CA3AF) else Color(0xFF6B7280)
+val BorderColor: Color @Composable get() = if (LocalDarkTheme.current) Color(0xFF374151) else Color(0xFFE5E7EB)
+val CardBgColor: Color @Composable get() = if (LocalDarkTheme.current) Color(0xFF1E1E1E) else Color.White
 
 // ---- Logo "Bitwise" (dipakai di Home & Profile) ----
 @Composable
-fun AppHeader() {
+fun AppHeader(onOpenDrawer: () -> Unit = {}) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(
-            text = buildAnnotatedString {
-                withStyle(SpanStyle(color = TextDark)) { append("Bit") }
-                withStyle(SpanStyle(color = Purple)) { append("wise") }
-            },
-            fontSize = 24.sp,
-            fontWeight = FontWeight.ExtraBold
-        )
-        Box(
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            IconButton(onClick = onOpenDrawer) {
+                Icon(Icons.Default.Menu, contentDescription = "Menu", tint = TextDark)
+            }
+            Spacer(Modifier.width(8.dp))
+            Text(
+                text = buildAnnotatedString {
+                    withStyle(SpanStyle(color = TextDark)) { append("Bit") }
+                    withStyle(SpanStyle(color = Purple)) { append("wise") }
+                },
+                fontSize = 24.sp,
+                fontWeight = FontWeight.ExtraBold
+            )
+        }
+        Image(
+            painter = painterResource(id = R.drawable.logo),
+            contentDescription = "Logo Aplikasi",
             modifier = Modifier
                 .size(44.dp)
-                .clip(RoundedCornerShape(14.dp))
-                .background(TextDark),
-            contentAlignment = Alignment.Center
-        ) {
-            Text("BW", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 14.sp)
-        }
+                .clip(RoundedCornerShape(14.dp)),
+            contentScale = ContentScale.Crop
+        )
     }
 }
 
 @Composable
-fun HomeScreen(onMemberClick: (Int) -> Unit) {
+fun HomeScreen(onMemberClick: (Int) -> Unit, onOpenDrawer: () -> Unit) {
     var query by remember { mutableStateOf("") }
     val filtered = MemberData.members.filter {
         it.nickname.contains(query, ignoreCase = true)
@@ -82,7 +95,7 @@ fun HomeScreen(onMemberClick: (Int) -> Unit) {
         // Bagian atas (header, judul, search) memenuhi lebar penuh
         item(span = { GridItemSpan(maxLineSpan) }) {
             Column {
-                AppHeader()
+                AppHeader(onOpenDrawer = onOpenDrawer)
                 Spacer(Modifier.height(24.dp))
 
                 Text(
@@ -120,10 +133,12 @@ fun HomeScreen(onMemberClick: (Int) -> Unit) {
                     singleLine = true,
                     shape = RoundedCornerShape(20.dp),
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedContainerColor = Color.White,
-                        unfocusedContainerColor = Color.White,
+                        focusedContainerColor = CardBgColor,
+                        unfocusedContainerColor = CardBgColor,
                         focusedBorderColor = Purple,
-                        unfocusedBorderColor = BorderColor
+                        unfocusedBorderColor = BorderColor,
+                        focusedTextColor = TextDark,
+                        unfocusedTextColor = TextDark
                     )
                 )
                 Spacer(Modifier.height(24.dp))
@@ -151,29 +166,22 @@ fun MemberCard(member: Member, onClick: () -> Unit) {
     Card(
         onClick = onClick, // <-- ini yang bikin card bisa dipencet
         shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = CardBgColor),
         border = BorderStroke(1.dp, BorderColor),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
             // Kotak avatar dengan huruf depan nama
-            Box(
+            Image(
+                painter = painterResource(id = member.photoResId),
+                contentDescription = "Foto ${member.nickname}",
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(1.2f)
                     .clip(RoundedCornerShape(16.dp))
-                    .background(
-                        Brush.linearGradient(listOf(Color(0xFFDDD6FE), Color(0xFFEEF0FF)))
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    member.nickname.first().uppercase(),
-                    fontSize = 36.sp,
-                    fontWeight = FontWeight.ExtraBold,
-                    color = PurpleDark
-                )
-            }
+                    .background(Color(0xFFEEF0FF)),
+                contentScale = ContentScale.Crop
+            )
             Spacer(Modifier.height(12.dp))
             Text(member.nickname, fontWeight = FontWeight.Bold, fontSize = 16.sp, color = TextDark)
             Text(member.nim, fontSize = 12.sp, color = TextGray)

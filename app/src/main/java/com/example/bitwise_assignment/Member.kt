@@ -7,46 +7,51 @@ data class Member(
     val nim: String,
     val hobby: List<String>,
     val dream: String,
-    val motto: String
+    val motto: String,
+    val photoResId: Int
 )
 
 object MemberData {
     val members = listOf(
         Member(
             id = 0,
-            fullName = "Alya Maharani",
-            nickname = "Alya",
-            nim = "240001",
-            hobby = listOf("Membaca", "Fotografi"),
+            fullName = "Dmitri Prokovich Razumikhin",
+            nickname = "Razumikhin",
+            nim = "001",
+            hobby = listOf("Menggambar", "Membaca"),
             dream = "UI/UX Designer",
-            motto = "Suka mencoba hal-hal baru dan terus belajar."
+            motto = "Suka mencoba hal-hal baru dan terus belajar.",
+            photoResId = R.drawable.razumikhin
         ),
         Member(
             id = 1,
-            fullName = "Bima Saputra",
-            nickname = "Bima",
-            nim = "240002",
+            fullName = "Rodion Raskolnikov",
+            nickname = "Rodya",
+            nim = "002",
             hobby = listOf("Main game", "Ngoding"),
             dream = "Android Developer",
-            motto = "Pantang menyerah sebelum error hilang."
+            motto = "Pantang menyerah sebelum error hilang.",
+            photoResId = R.drawable.raskolnikov
         ),
         Member(
             id = 2,
-            fullName = "Citra Lestari",
-            nickname = "Citra",
-            nim = "240003",
+            fullName = "Rintarou Okabe",
+            nickname = "Rintarou",
+            nim = "003",
             hobby = listOf("Menggambar", "Menulis"),
             dream = "Product Manager",
-            motto = "Ide yang baik harus dieksekusi dengan baik."
+            motto = "Ide yang baik harus dieksekusi dengan baik.",
+            photoResId = R.drawable.rintarou
         ),
         Member(
             id = 3,
-            fullName = "Daffa Pratama",
-            nickname = "Daffa",
-            nim = "240004",
+            fullName = "Dazai Osamu",
+            nickname = "Dazai",
+            nim = "004",
             hobby = listOf("Olahraga", "Musik"),
             dream = "Backend Engineer",
-            motto = "Stabilitas adalah kunci dari segalanya."
+            motto = "Stabilitas adalah kunci dari segalanya.",
+            photoResId = R.drawable.dazai
         )
     )
 

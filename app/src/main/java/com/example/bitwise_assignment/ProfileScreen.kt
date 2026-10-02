@@ -15,6 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.Image
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -51,22 +54,15 @@ fun ProfileScreen(memberId: Int, onBack: () -> Unit) {
 
         // Avatar + nama + role
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Box(
+            Image(
+                painter = painterResource(id = member.photoResId),
+                contentDescription = "Foto ${member.nickname}",
                 modifier = Modifier
                     .size(104.dp)
                     .clip(RoundedCornerShape(28.dp))
-                    .background(
-                        Brush.linearGradient(listOf(Color(0xFFDDD6FE), Color(0xFFEEF0FF)))
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    member.nickname.first().uppercase(),
-                    fontSize = 40.sp,
-                    fontWeight = FontWeight.ExtraBold,
-                    color = PurpleDark
-                )
-            }
+                    .background(Color(0xFFEEF0FF)),
+                contentScale = ContentScale.Crop
+            )
             Spacer(Modifier.width(18.dp))
             Column {
                 Text(member.nickname, fontSize = 28.sp, fontWeight = FontWeight.ExtraBold, color = TextDark)
@@ -78,7 +74,7 @@ fun ProfileScreen(memberId: Int, onBack: () -> Unit) {
         // Card biodata
         Card(
             shape = RoundedCornerShape(24.dp),
-            colors = CardDefaults.cardColors(containerColor = Color.White),
+            colors = CardDefaults.cardColors(containerColor = CardBgColor),
             border = BorderStroke(1.dp, BorderColor),
             modifier = Modifier.fillMaxWidth()
         ) {
