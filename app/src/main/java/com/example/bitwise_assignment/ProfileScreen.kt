@@ -30,13 +30,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.compose.ui.window.Dialog
-import androidx.media3.common.MediaItem
-import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.ui.PlayerView
-import androidx.media3.common.Player
-import androidx.media3.common.PlaybackException
+
+
+
 
 @Composable
 fun ProfileScreen(memberId: Int, onBack: () -> Unit, onOpenDrawer: () -> Unit = {}) {
@@ -146,98 +142,7 @@ fun ProfileScreen(memberId: Int, onBack: () -> Unit, onOpenDrawer: () -> Unit = 
                 Text(member.motto, fontSize = 17.sp, fontWeight = FontWeight.SemiBold, color = TextDark)
             }
         }
-        // Initialize ExoPlayer once for this profile
-        val context = LocalContext.current
-        val exoPlayer = remember(context) {
-            ExoPlayer.Builder(context).build().apply {
-                val videoUri = "android.resource://${context.packageName}/${member.videoResId}"
-                setMediaItem(MediaItem.fromUri(videoUri))
-                prepare()
-                playWhenReady = true
-                // Add error listener for debugging
-                addListener(object : Player.Listener {
-                    override fun onPlayerError(error: PlaybackException) {
-                        Log.e("ProfileScreen", "Video playback error", error)
-                    }
-                })
-            }
-        }
-        DisposableEffect(Unit) {
-            onDispose { exoPlayer.release() }
-        }
 
-        // Video Perkenalan Section
-        Card(
-            shape = RoundedCornerShape(24.dp),
-            colors = CardDefaults.cardColors(containerColor = CardBgColor),
-            border = BorderStroke(1.dp, BorderColor),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp)
-        ) {
-            Column(modifier = Modifier.padding(20.dp)) {
-                Text("Video Perkenalan", fontSize = 14.sp, color = TextGray, fontWeight = FontWeight.SemiBold)
-                Spacer(Modifier.height(12.dp))
-                AndroidView(
-                    factory = { ctx ->
-                        PlayerView(ctx).apply {
-                            player = exoPlayer
-                            useController = true
-                            setFullscreenButtonClickListener { isFull ->
-                                isFullScreen = isFull
-                            }
-                            layoutParams = ViewGroup.LayoutParams(
-                                ViewGroup.LayoutParams.MATCH_PARENT,
-                                ViewGroup.LayoutParams.MATCH_PARENT
-                            )
-                        }
-                    },
-                    update = { view ->
-                        view.player = exoPlayer
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp)
-                        .clip(RoundedCornerShape(16.dp))
-                )
-            }
-        }
-        // Fullscreen dialog for video
-        if (isFullScreen) {
-            Dialog(onDismissRequest = { isFullScreen = false }) {
-                Box(
-                    Modifier
-                        .fillMaxSize()
-                        .background(Color.Black)
-                ) {
-                    AndroidView(
-                        factory = { ctx ->
-                            PlayerView(ctx).apply {
-                                player = exoPlayer
-                                useController = true
-                                setFullscreenButtonClickListener {
-                                    isFullScreen = false
-                                }
-                                layoutParams = ViewGroup.LayoutParams(
-                                    ViewGroup.LayoutParams.MATCH_PARENT,
-                                    ViewGroup.LayoutParams.MATCH_PARENT
-                                )
-                            }
-                        },
-                        update = { view ->
-                            view.player = exoPlayer
-                        },
-                        modifier = Modifier.fillMaxSize()
-                    )
-                    IconButton(
-                        onClick = { isFullScreen = false },
-                        modifier = Modifier.align(Alignment.TopEnd)
-                    ) {
-                        Icon(Icons.Default.Close, contentDescription = "Close", tint = Color.White)
-                    }
-                }
-            }
-        }
     }
 }
 

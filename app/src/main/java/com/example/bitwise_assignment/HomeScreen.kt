@@ -12,6 +12,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Fullscreen
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.VolumeUp
+import androidx.compose.material.icons.filled.VolumeOff
+import androidx.compose.material.icons.filled.FullscreenExit
 import androidx.compose.material3.*
 import androidx.compose.foundation.Image
 import androidx.compose.ui.layout.ContentScale
@@ -23,11 +28,23 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.material3.Surface
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
+import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.viewinterop.AndroidView
+import android.view.ViewGroup
+import androidx.media3.common.MediaItem
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.ui.PlayerView
 
 // ---- Tema ----
 val LocalDarkTheme = compositionLocalOf { false }
@@ -105,9 +122,151 @@ fun HomeScreen(onMemberClick: (Int) -> Unit, onOpenDrawer: () -> Unit) {
                     fontWeight = FontWeight.Bold,
                     letterSpacing = 1.sp
                 )
+                // Video Intro Section
+                val context = LocalContext.current
+                val exoPlayer = remember(context) {
+                    ExoPlayer.Builder(context).build().apply {
+                        val videoUri = "android.resource://${context.packageName}/${R.raw.intro}"
+                        setMediaItem(MediaItem.fromUri(videoUri))
+                        prepare()
+                    }
+                }
+                // Video Player
+                var showSettings by remember { mutableStateOf(false) }
+                var isFullscreen by remember { mutableStateOf(false) }
+                var volume by remember { mutableFloatStateOf(1f) }
+
+                DisposableEffect(exoPlayer) {
+                    onDispose { exoPlayer.release() }
+                }
+
+                Card(
+                    shape = RoundedCornerShape(24.dp),
+                    colors = CardDefaults.cardColors(containerColor = CardBgColor),
+                    border = BorderStroke(1.dp, BorderColor),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp)
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp)
+                            .clip(RoundedCornerShape(16.dp))
+                    ) {
+                        AndroidView(
+                            factory = { ctx ->
+                                PlayerView(ctx).apply {
+                                    player = exoPlayer
+                                    useController = true
+                                    layoutParams = ViewGroup.LayoutParams(
+                                        ViewGroup.LayoutParams.MATCH_PARENT,
+                                        ViewGroup.LayoutParams.MATCH_PARENT
+                                    )
+                                }
+                            },
+                            update = { view -> view.player = exoPlayer },
+                            modifier = Modifier.fillMaxSize()
+                        )
+
+                    }
+                }
+
+                if (showSettings) {
+                    AlertDialog(
+                        onDismissRequest = { showSettings = false },
+                        title = { Text("Pengaturan Video") },
+                        text = {
+                            Column(
+                                verticalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                Text("Volume: ${(volume * 100).toInt()}%")
+                                Slider(
+                                    value = volume,
+                                    onValueChange = {
+                                        volume = it
+                                        exoPlayer.volume = it
+                                    },
+                                    valueRange = 0f..1f
+                                )
+
+                                Text("Playback Speed")
+                                listOf(0.5f, 1f, 1.5f, 2f).forEach { speed ->
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .clickable {
+                                                exoPlayer.setPlaybackSpeed(speed)
+                                                showSettings = false
+                                            },
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        RadioButton(
+                                            selected = exoPlayer.playbackParameters.speed == speed,
+                                            onClick = {
+                                                exoPlayer.setPlaybackSpeed(speed)
+                                                showSettings = false
+                                            }
+                                        )
+                                        Text(
+                                            "${speed}x",
+                                            modifier = Modifier.padding(start = 8.dp)
+                                        )
+                                    }
+                                }
+                            }
+                        },
+                        confirmButton = {
+                            TextButton(onClick = { showSettings = false }) {
+                                Text("Tutup")
+                            }
+                        }
+                    )
+                }
+
+                if (isFullscreen) {
+                    Dialog(
+                        onDismissRequest = { isFullscreen = false }
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(Color.Black),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            AndroidView(
+                                factory = { ctx ->
+                                    PlayerView(ctx).apply {
+                                        player = exoPlayer
+                                        useController = true
+                                        layoutParams = ViewGroup.LayoutParams(
+                                            ViewGroup.LayoutParams.MATCH_PARENT,
+                                            ViewGroup.LayoutParams.MATCH_PARENT
+                                        )
+                                    }
+                                },
+                                modifier = Modifier.fillMaxSize()
+                            )
+
+                            IconButton(
+                                onClick = { isFullscreen = false },
+                                modifier = Modifier
+                                    .align(Alignment.TopEnd)
+                                    .padding(8.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.FullscreenExit,
+                                    contentDescription = "Keluar Fullscreen",
+                                    tint = Color.White
+                                )
+                            }
+                        }
+                    }
+                }
+
                 Spacer(Modifier.height(8.dp))
                 Text(
-                    "Halo!\nkami kelompok Bitwise.",
+                    "Halo!",
                     color = TextDark,
                     fontSize = 32.sp,
                     lineHeight = 36.sp,
@@ -115,7 +274,7 @@ fun HomeScreen(onMemberClick: (Int) -> Unit, onOpenDrawer: () -> Unit) {
                 )
                 Spacer(Modifier.height(8.dp))
                 Text(
-                    "Kenali lebih dekat siapa saja yang ada di balik Bitwise.",
+                    "Kenali lebih dekat siapa saja yang ada di balik kelompok Bitwise.",
                     color = TextGray,
                     fontSize = 14.sp,
                     lineHeight = 20.sp

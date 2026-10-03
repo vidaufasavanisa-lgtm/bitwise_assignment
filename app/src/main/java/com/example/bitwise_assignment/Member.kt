@@ -8,55 +8,50 @@ data class Member(
     val hobby: List<String>,
     val dream: String,
     val motto: String,
-    val photoResId: Int,
-    val videoResId: Int
+    val photoResId: Int
 )
 
 object MemberData {
     val members = listOf(
         Member(
             id = 0,
-            fullName = "Dmitri Prokovich Razumikhin",
-            nickname = "Razumikhin",
-            nim = "001",
+            fullName = "Athiyyah Dzatil Izzah",
+            nickname = "Tiya",
+            nim = "0102524008",
             hobby = listOf("Menggambar", "Membaca"),
-            dream = "UI/UX Designer",
-            motto = "Suka mencoba hal-hal baru dan terus belajar.",
-            photoResId = R.drawable.razumikhin,
-            videoResId = R.raw.intro1
+            dream = "Berkarier di bidang teknologi & membawa manfaat",
+            motto = "Carpe diem! seize the day, make your lives extraordinary.",
+            photoResId = R.drawable.tiya
         ),
         Member(
             id = 1,
-            fullName = "Rodion Raskolnikov",
-            nickname = "Rodya",
-            nim = "002",
-            hobby = listOf("Main game", "Ngoding"),
-            dream = "Android Developer",
-            motto = "Pantang menyerah sebelum error hilang.",
-            photoResId = R.drawable.raskolnikov,
-            videoResId = R.raw.intro2
+            fullName = "Devi Rahmawati",
+            nickname = "Devi",
+            nim = "0102524011",
+            hobby = listOf("Musik", "Menggambar", "Kerajinan"),
+            dream = "UI/UX Designer",
+            motto = "Don’t be afraid to fail, be afraid to never try.",
+            photoResId = R.drawable.devi
         ),
         Member(
             id = 2,
-            fullName = "Rintarou Okabe",
-            nickname = "Rintarou",
-            nim = "003",
-            hobby = listOf("Menggambar", "Menulis"),
-            dream = "Product Manager",
-            motto = "Ide yang baik harus dieksekusi dengan baik.",
-            photoResId = R.drawable.rintarou,
-            videoResId = R.raw.intro1
+            fullName = "Nava Amanda",
+            nickname = "Nava",
+            nim = "0102524033",
+            hobby = listOf("Traveling", "Makeup"),
+            dream = "Punya pekerjaan yang sesuai dengan minat dan bisa sukses di masa depan",
+            motto = "Terus belajar, terus berkembang, dan jangan takut mencoba hal baru.",
+            photoResId = R.drawable.nava
         ),
         Member(
             id = 3,
-            fullName = "Dazai Osamu",
-            nickname = "Dazai",
-            nim = "004",
-            hobby = listOf("Olahraga", "Musik"),
-            dream = "Backend Engineer",
-            motto = "Stabilitas adalah kunci dari segalanya.",
-            photoResId = R.drawable.dazai,
-            videoResId = R.raw.intro2
+            fullName = "Vidaufa Savanisa Akmal",
+            nickname = "Sava",
+            nim = "0102524037",
+            hobby = listOf("Baking", "Musik"),
+            dream = "UI/UX Designer",
+            motto = "It’s okay to fall just don't fall apart .",
+            photoResId = R.drawable.sava
         )
     )
 
