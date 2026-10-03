@@ -107,7 +107,7 @@ fun HomeScreen(onMemberClick: (Int) -> Unit, onOpenDrawer: () -> Unit) {
                 )
                 Spacer(Modifier.height(8.dp))
                 Text(
-                    "Kenalan dengan\ntim Bitwise.",
+                    "Halo!\nkami kelompok Bitwise.",
                     color = TextDark,
                     fontSize = 32.sp,
                     lineHeight = 36.sp,
@@ -115,7 +115,7 @@ fun HomeScreen(onMemberClick: (Int) -> Unit, onOpenDrawer: () -> Unit) {
                 )
                 Spacer(Modifier.height(8.dp))
                 Text(
-                    "Tempat sederhana untuk mengenal anggota tim, mulai dari biodata sampai hal-hal menarik tentang mereka.",
+                    "Kenali lebih dekat siapa saja yang ada di balik Bitwise.",
                     color = TextGray,
                     fontSize = 14.sp,
                     lineHeight = 20.sp

@@ -151,7 +151,8 @@ fun AppNavigation() {
                     val id = backStackEntry.arguments?.getInt("id") ?: 0
                     ProfileScreen(
                         memberId = id,
-                        onBack = { navController.popBackStack() }
+                        onBack = { navController.popBackStack() },
+                        onOpenDrawer = { scope.launch { drawerState.open() } }
                     )
                 }
             }
