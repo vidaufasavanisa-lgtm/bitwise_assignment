@@ -1,26 +1,45 @@
 package com.example.bitwise_assignment
 
+import android.util.Log
+import android.view.ViewGroup
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+
+
+
 @Composable
-fun ProfileScreen(memberId: Int, onBack: () -> Unit) {
+fun ProfileScreen(memberId: Int, onBack: () -> Unit, onOpenDrawer: () -> Unit = {}) {
     val member = MemberData.findById(memberId)
+    var isFullScreen by remember { mutableStateOf(false) }
+
+
 
     Column(
         modifier = Modifier
@@ -30,7 +49,7 @@ fun ProfileScreen(memberId: Int, onBack: () -> Unit) {
             .verticalScroll(rememberScrollState())
             .padding(16.dp)
     ) {
-        AppHeader()
+        AppHeader(onOpenDrawer = onOpenDrawer)
         Spacer(Modifier.height(24.dp))
 
         // Tombol kembali
@@ -50,26 +69,19 @@ fun ProfileScreen(memberId: Int, onBack: () -> Unit) {
 
         // Avatar + nama + role
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Box(
+            Image(
+                painter = painterResource(id = member.photoResId),
+                contentDescription = "Foto ${member.nickname}",
                 modifier = Modifier
                     .size(104.dp)
                     .clip(RoundedCornerShape(28.dp))
-                    .background(
-                        Brush.linearGradient(listOf(Color(0xFFDDD6FE), Color(0xFFEEF0FF)))
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    member.name.first().uppercase(),
-                    fontSize = 40.sp,
-                    fontWeight = FontWeight.ExtraBold,
-                    color = PurpleDark
-                )
-            }
+                    .background(Color(0xFFEEF0FF)),
+                contentScale = ContentScale.Crop
+            )
             Spacer(Modifier.width(18.dp))
             Column {
-                Text(member.name, fontSize = 28.sp, fontWeight = FontWeight.ExtraBold, color = TextDark)
-                Text(member.role, fontSize = 15.sp, color = TextGray)
+                Text(member.nickname, fontSize = 28.sp, fontWeight = FontWeight.ExtraBold, color = TextDark)
+                Text(member.nim, fontSize = 15.sp, color = TextGray)
             }
         }
         Spacer(Modifier.height(24.dp))
@@ -77,20 +89,60 @@ fun ProfileScreen(memberId: Int, onBack: () -> Unit) {
         // Card biodata
         Card(
             shape = RoundedCornerShape(24.dp),
-            colors = CardDefaults.cardColors(containerColor = Color.White),
+            colors = CardDefaults.cardColors(containerColor = CardBgColor),
             border = BorderStroke(1.dp, BorderColor),
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp)) {
-                InfoRow("Nama", member.name)
+                InfoRow("Nama Lengkap", member.fullName)
                 HorizontalDivider(color = BorderColor)
-                InfoRow("Hobi", member.hobby)
+                InfoRow("Nama Panggilan", member.nickname)
+                HorizontalDivider(color = BorderColor)
+                Column(modifier = Modifier.padding(vertical = 14.dp)) {
+                    Text("Hobi", fontSize = 12.sp, color = TextGray)
+                    Spacer(Modifier.height(8.dp))
+                    Row(
+                        modifier = Modifier.horizontalScroll(rememberScrollState()),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        member.hobby.forEach { tag ->
+                            Box(
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(16.dp))
+                                    .background(PurpleSoft)
+                                    .padding(horizontal = 12.dp, vertical = 6.dp)
+                            ) {
+                                Text(
+                                    text = tag,
+                                    fontSize = 13.sp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = PurpleDark
+                                )
+                            }
+                        }
+                    }
+                }
                 HorizontalDivider(color = BorderColor)
                 InfoRow("Cita-cita", member.dream)
-                HorizontalDivider(color = BorderColor)
-                InfoRow("Tentang saya", member.about)
+                // Motto moved to separate card
             }
         }
+        // Motto Section
+        Card(
+            shape = RoundedCornerShape(24.dp),
+            colors = CardDefaults.cardColors(containerColor = CardBgColor),
+            border = BorderStroke(1.dp, BorderColor),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp)
+        ) {
+            Column(modifier = Modifier.padding(20.dp)) {
+                Text("Motto", fontSize = 14.sp, color = TextGray, fontWeight = FontWeight.SemiBold)
+                Spacer(Modifier.height(8.dp))
+                Text(member.motto, fontSize = 17.sp, fontWeight = FontWeight.SemiBold, color = TextDark)
+            }
+        }
+
     }
 }
 
