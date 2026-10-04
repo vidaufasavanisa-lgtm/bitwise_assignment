@@ -45,15 +45,16 @@ import android.view.ViewGroup
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
+import com.example.bitwise_assignment.ui.theme.*
 
 // ---- Tema ----
 val LocalDarkTheme = compositionLocalOf { false }
 
 // ---- Warna yang dipakai di seluruh aplikasi ----
 val BgColor: Color @Composable get() = if (LocalDarkTheme.current) Color(0xFF121212) else Color(0xFFF5F6FA)
-val Purple = Color(0xFF6C5CE7)
-val PurpleDark: Color @Composable get() = if (LocalDarkTheme.current) Color(0xFF8C7FF0) else Color(0xFF4B3FB5)
-val PurpleSoft: Color @Composable get() = if (LocalDarkTheme.current) Color(0xFF2D245B) else Color(0xFFEDE9FE)
+val Purple = AccentPeriwinkle
+val PurpleDark: Color @Composable get() = if (LocalDarkTheme.current) AccentPink else AccentDarkPurple
+val PurpleSoft: Color @Composable get() = if (LocalDarkTheme.current) AccentDeepMidnight else AccentPink
 val TextDark: Color @Composable get() = if (LocalDarkTheme.current) Color(0xFFF9FAFB) else Color(0xFF111827)
 val TextGray: Color @Composable get() = if (LocalDarkTheme.current) Color(0xFF9CA3AF) else Color(0xFF6B7280)
 val BorderColor: Color @Composable get() = if (LocalDarkTheme.current) Color(0xFF374151) else Color(0xFFE5E7EB)
@@ -338,7 +339,7 @@ fun MemberCard(member: Member, onClick: () -> Unit) {
                     .fillMaxWidth()
                     .aspectRatio(1.2f)
                     .clip(RoundedCornerShape(16.dp))
-                    .background(Color(0xFFEEF0FF)),
+                    .background(PurpleSoft),
                 contentScale = ContentScale.Crop
             )
             Spacer(Modifier.height(12.dp))

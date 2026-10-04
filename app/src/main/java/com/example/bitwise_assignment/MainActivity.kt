@@ -34,6 +34,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.bitwise_assignment.ui.theme.Bitwise_assignmentTheme
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -41,9 +42,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            MaterialTheme {
-                AppNavigation()
-            }
+            AppNavigation()
         }
     }
 }
@@ -53,8 +52,9 @@ fun AppNavigation() {
     var isDarkTheme by remember { mutableStateOf(false) }
 
     CompositionLocalProvider(LocalDarkTheme provides isDarkTheme) {
-        val navController = rememberNavController()
-        val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+        Bitwise_assignmentTheme(darkTheme = isDarkTheme) {
+            val navController = rememberNavController()
+            val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
         val scope = rememberCoroutineScope()
         
         val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -157,6 +157,7 @@ fun AppNavigation() {
                 }
             }
         }
+      }
     }
 }
 

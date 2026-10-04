@@ -75,7 +75,7 @@ fun ProfileScreen(memberId: Int, onBack: () -> Unit, onOpenDrawer: () -> Unit = 
                 modifier = Modifier
                     .size(104.dp)
                     .clip(RoundedCornerShape(28.dp))
-                    .background(Color(0xFFEEF0FF)),
+                    .background(PurpleSoft),
                 contentScale = ContentScale.Crop
             )
             Spacer(Modifier.width(18.dp))
