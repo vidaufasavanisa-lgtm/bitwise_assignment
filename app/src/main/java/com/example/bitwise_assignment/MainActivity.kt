@@ -25,6 +25,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -66,7 +67,7 @@ fun AppNavigation() {
                 ModalDrawerSheet(drawerContainerColor = BgColor) {
                     Spacer(Modifier.height(16.dp))
                     NavigationDrawerItem(
-                        label = { Text("Home", color = TextDark) },
+                        label = { Text("Home", color = if (currentRoute == "home") Color.White else TextDark) },
                         selected = currentRoute == "home",
                         onClick = {
                             scope.launch { drawerState.close() }
@@ -77,10 +78,13 @@ fun AppNavigation() {
                             }
                         },
                         modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
-                        colors = NavigationDrawerItemDefaults.colors(selectedContainerColor = PurpleSoft)
+                        colors = NavigationDrawerItemDefaults.colors(
+                            selectedContainerColor = PurpleSoft,
+                            unselectedContainerColor = Color.Transparent
+                        )
                     )
                     NavigationDrawerItem(
-                        label = { Text("About", color = TextDark) },
+                        label = { Text("About", color = if (currentRoute == "about") Color.White else TextDark) },
                         selected = currentRoute == "about",
                         onClick = {
                             scope.launch { drawerState.close() }
@@ -91,10 +95,13 @@ fun AppNavigation() {
                             }
                         },
                         modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
-                        colors = NavigationDrawerItemDefaults.colors(selectedContainerColor = PurpleSoft)
+                        colors = NavigationDrawerItemDefaults.colors(
+                            selectedContainerColor = PurpleSoft,
+                            unselectedContainerColor = Color.Transparent
+                        )
                     )
                     NavigationDrawerItem(
-                        label = { Text("Projects", color = TextDark) },
+                        label = { Text("Projects", color = if (currentRoute == "projects") Color.White else TextDark) },
                         selected = currentRoute == "projects",
                         onClick = {
                             scope.launch { drawerState.close() }
@@ -105,10 +112,13 @@ fun AppNavigation() {
                             }
                         },
                         modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
-                        colors = NavigationDrawerItemDefaults.colors(selectedContainerColor = PurpleSoft)
+                        colors = NavigationDrawerItemDefaults.colors(
+                            selectedContainerColor = PurpleSoft,
+                            unselectedContainerColor = Color.Transparent
+                        )
                     )
                     NavigationDrawerItem(
-                        label = { Text("Settings", color = TextDark) },
+                        label = { Text("Settings", color = if (currentRoute == "settings") Color.White else TextDark) },
                         selected = currentRoute == "settings",
                         onClick = {
                             scope.launch { drawerState.close() }
@@ -119,7 +129,10 @@ fun AppNavigation() {
                             }
                         },
                         modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
-                        colors = NavigationDrawerItemDefaults.colors(selectedContainerColor = PurpleSoft)
+                        colors = NavigationDrawerItemDefaults.colors(
+                            selectedContainerColor = PurpleSoft,
+                            unselectedContainerColor = Color.Transparent
+                        )
                     )
                 }
             }
@@ -185,7 +198,12 @@ fun MenuScreen(
             Switch(
                 checked = isDarkTheme,
                 onCheckedChange = onToggleTheme,
-                colors = SwitchDefaults.colors(checkedThumbColor = Purple, checkedTrackColor = PurpleSoft)
+                colors = SwitchDefaults.colors(
+                    checkedThumbColor = if (isDarkTheme) Color(0xFFFFF9FF) else Color.White,
+                    checkedTrackColor = Purple,
+                    uncheckedThumbColor = if (isDarkTheme) Color(0xFF9A8BB5) else Color.Gray,
+                    uncheckedTrackColor = if (isDarkTheme) Color(0xFF21132C) else Color(0xFFE5E7EB)
+                )
             )
         }
     }

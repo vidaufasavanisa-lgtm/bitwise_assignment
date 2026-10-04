@@ -45,20 +45,20 @@ import android.view.ViewGroup
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
-import com.example.bitwise_assignment.ui.theme.*
 
 // ---- Tema ----
 val LocalDarkTheme = compositionLocalOf { false }
 
 // ---- Warna yang dipakai di seluruh aplikasi ----
-val BgColor: Color @Composable get() = if (LocalDarkTheme.current) Color(0xFF121212) else Color(0xFFF5F6FA)
-val Purple = AccentPeriwinkle
-val PurpleDark: Color @Composable get() = if (LocalDarkTheme.current) AccentPink else AccentDarkPurple
-val PurpleSoft: Color @Composable get() = if (LocalDarkTheme.current) AccentDeepMidnight else AccentPink
-val TextDark: Color @Composable get() = if (LocalDarkTheme.current) Color(0xFFF9FAFB) else Color(0xFF111827)
-val TextGray: Color @Composable get() = if (LocalDarkTheme.current) Color(0xFF9CA3AF) else Color(0xFF6B7280)
-val BorderColor: Color @Composable get() = if (LocalDarkTheme.current) Color(0xFF374151) else Color(0xFFE5E7EB)
-val CardBgColor: Color @Composable get() = if (LocalDarkTheme.current) Color(0xFF1E1E1E) else Color.White
+val BgColor: Color @Composable get() = if (LocalDarkTheme.current) Color(0xFF160D20) else Color.White
+val Purple: Color @Composable get() = if (LocalDarkTheme.current) Color(0xFF8B7BC4) else Color(0xFF6667AB)
+val PurpleDark: Color @Composable get() = if (LocalDarkTheme.current) Color(0xFFFFF9FF) else Color(0xFF4B3FB5)
+val PurpleSoft: Color @Composable get() = if (LocalDarkTheme.current) Color(0xFF8B7BC4) else Purple
+val TextDark: Color @Composable get() = if (LocalDarkTheme.current) Color(0xFFF3E7F0) else Color(0xFF111827)
+val TextGray: Color @Composable get() = if (LocalDarkTheme.current) Color(0xFFD8CBD8) else Color(0xFF6B7280)
+val MutedText: Color @Composable get() = if (LocalDarkTheme.current) Color(0xFF9A8BB5) else Color(0xFF6B7280)
+val BorderColor: Color @Composable get() = if (LocalDarkTheme.current) Color(0xFF5B3A68) else Color(0xFFE5E7EB)
+val CardBgColor: Color @Composable get() = if (LocalDarkTheme.current) Color(0xFF21132C) else Color.White
 
 // ---- Logo "Bitwise" (dipakai di Home & Profile) ----
 @Composable
@@ -276,7 +276,7 @@ fun HomeScreen(onMemberClick: (Int) -> Unit, onOpenDrawer: () -> Unit) {
                 Spacer(Modifier.height(8.dp))
                 Text(
                     "Kenali lebih dekat siapa saja yang ada di balik kelompok Bitwise.",
-                    color = TextGray,
+                    color = TextDark,
                     fontSize = 14.sp,
                     lineHeight = 20.sp
                 )
@@ -286,9 +286,9 @@ fun HomeScreen(onMemberClick: (Int) -> Unit, onOpenDrawer: () -> Unit) {
                     value = query,
                     onValueChange = { query = it },
                     modifier = Modifier.fillMaxWidth(),
-                    placeholder = { Text("Cari nama anggota...", color = TextGray) },
+                    placeholder = { Text("Cari nama anggota...", color = TextDark) },
                     leadingIcon = {
-                        Icon(Icons.Default.Search, contentDescription = null, tint = TextGray)
+                        Icon(Icons.Default.Search, contentDescription = null, tint = TextDark)
                     },
                     singleLine = true,
                     shape = RoundedCornerShape(20.dp),
@@ -309,7 +309,7 @@ fun HomeScreen(onMemberClick: (Int) -> Unit, onOpenDrawer: () -> Unit) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text("Our People", fontWeight = FontWeight.Bold, fontSize = 16.sp, color = TextDark)
-                    Text("${filtered.size} members", fontSize = 13.sp, color = TextGray)
+                    Text("${filtered.size} members", fontSize = 13.sp, color = MutedText)
                 }
             }
         }
@@ -339,26 +339,26 @@ fun MemberCard(member: Member, onClick: () -> Unit) {
                     .fillMaxWidth()
                     .aspectRatio(1.2f)
                     .clip(RoundedCornerShape(16.dp))
-                    .background(PurpleSoft),
+                    .background(Color(0xFFEEF0FF)),
                 contentScale = ContentScale.Crop
             )
             Spacer(Modifier.height(12.dp))
             Text(member.nickname, fontWeight = FontWeight.Bold, fontSize = 16.sp, color = TextDark)
-            Text(member.nim, fontSize = 12.sp, color = TextGray)
+            Text(member.nim, fontSize = 12.sp, color = MutedText)
             Spacer(Modifier.height(10.dp))
 
             // Pill "View Profile →"
             Box(
                 modifier = Modifier
                     .clip(CircleShape)
-                    .background(PurpleSoft)
+                    .background(Purple)
                     .padding(horizontal = 12.dp, vertical = 6.dp)
             ) {
                 Text(
                     "View Profile →",
                     fontSize = 11.sp,
                     fontWeight = FontWeight.Bold,
-                    color = PurpleDark
+                    color = Color.White
                 )
             }
         }

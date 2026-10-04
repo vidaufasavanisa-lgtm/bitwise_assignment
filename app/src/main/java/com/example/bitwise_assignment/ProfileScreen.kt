@@ -81,7 +81,7 @@ fun ProfileScreen(memberId: Int, onBack: () -> Unit, onOpenDrawer: () -> Unit = 
             Spacer(Modifier.width(18.dp))
             Column {
                 Text(member.nickname, fontSize = 28.sp, fontWeight = FontWeight.ExtraBold, color = TextDark)
-                Text(member.nim, fontSize = 15.sp, color = TextGray)
+                Text(member.nim, fontSize = 15.sp, color = MutedText)
             }
         }
         Spacer(Modifier.height(24.dp))
@@ -109,14 +109,14 @@ fun ProfileScreen(memberId: Int, onBack: () -> Unit, onOpenDrawer: () -> Unit = 
                             Box(
                                 modifier = Modifier
                                     .clip(RoundedCornerShape(16.dp))
-                                    .background(PurpleSoft)
+                                    .background(Purple)
                                     .padding(horizontal = 12.dp, vertical = 6.dp)
                             ) {
                                 Text(
                                     text = tag,
                                     fontSize = 13.sp,
                                     fontWeight = FontWeight.SemiBold,
-                                    color = PurpleDark
+                                    color = Color.White
                                 )
                             }
                         }
