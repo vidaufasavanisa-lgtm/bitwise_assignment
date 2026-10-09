@@ -147,7 +147,19 @@ fun AppNavigation() {
                 }
                 
                 composable("about") { PlaceholderScreen("About Screen", onOpenDrawer = { scope.launch { drawerState.open() } }) }
-                composable("projects") { PlaceholderScreen("Projects Screen", onOpenDrawer = { scope.launch { drawerState.open() } }) }
+                composable("projects") { 
+                    ProjectsScreen(
+                        onGeometryClick = { navController.navigate("projects/geometry") },
+                        onOpenDrawer = { scope.launch { drawerState.open() } }
+                    ) 
+                }
+                
+                composable("projects/geometry") {
+                    GeometryFormulasScreen(
+                        onBack = { navController.popBackStack() },
+                        onOpenDrawer = { scope.launch { drawerState.open() } }
+                    )
+                }
                 
                 composable("settings") { 
                     MenuScreen(
