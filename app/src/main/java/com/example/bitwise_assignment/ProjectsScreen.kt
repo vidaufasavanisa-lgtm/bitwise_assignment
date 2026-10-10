@@ -1,6 +1,7 @@
 package com.example.bitwise_assignment
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -13,7 +14,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -187,6 +192,157 @@ fun FormulaSection(title: String, items: List<FormulaItem>) {
 }
 
 @Composable
+fun GeometryIllustration(id: String) {
+    val strokeColor = Purple
+    val fillColor = Purple.copy(alpha = 0.15f)
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(100.dp)
+            .padding(vertical = 4.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Canvas(modifier = Modifier.size(140.dp, 90.dp)) {
+            val w = size.width
+            val h = size.height
+
+            when (id) {
+                "persegi" -> {
+                    val side = minOf(w, h) * 0.65f
+                    val left = (w - side) / 2f - 10f
+                    val top = (h - side) / 2f
+                    drawRect(
+                        color = fillColor,
+                        topLeft = Offset(left, top),
+                        size = Size(side, side)
+                    )
+                    drawRect(
+                        color = strokeColor,
+                        topLeft = Offset(left, top),
+                        size = Size(side, side),
+                        style = Stroke(width = 3.dp.toPx())
+                    )
+                }
+                "segitiga" -> {
+                    val path = Path().apply {
+                        moveTo(w / 2f, h * 0.08f)
+                        lineTo(w * 0.78f, h * 0.75f)
+                        lineTo(w * 0.22f, h * 0.75f)
+                        close()
+                    }
+                    drawPath(path, color = fillColor)
+                    drawPath(path, color = strokeColor, style = Stroke(width = 3.dp.toPx()))
+                    drawLine(
+                        color = strokeColor.copy(alpha = 0.6f),
+                        start = Offset(w / 2f, h * 0.08f),
+                        end = Offset(w / 2f, h * 0.75f),
+                        strokeWidth = 2.dp.toPx()
+                    )
+                }
+                "lingkaran" -> {
+                    val radius = minOf(w, h) * 0.35f
+                    val center = Offset(w / 2f, h / 2f)
+                    drawCircle(color = fillColor, radius = radius, center = center)
+                    drawCircle(color = strokeColor, radius = radius, center = center, style = Stroke(width = 3.dp.toPx()))
+                    drawLine(
+                        color = strokeColor,
+                        start = center,
+                        end = Offset(center.x + radius, center.y),
+                        strokeWidth = 2.dp.toPx()
+                    )
+                    drawCircle(color = strokeColor, radius = 3.dp.toPx(), center = center)
+                }
+                "tabung" -> {
+                    val rx = w * 0.25f
+                    val ry = h * 0.12f
+                    val cx = w / 2f
+                    val topCy = h * 0.3f
+                    val botCy = h * 0.8f
+
+                    drawRect(
+                        color = fillColor,
+                        topLeft = Offset(cx - rx, topCy),
+                        size = Size(rx * 2f, botCy - topCy)
+                    )
+                    drawLine(color = strokeColor, start = Offset(cx - rx, topCy), end = Offset(cx - rx, botCy), strokeWidth = 3.dp.toPx())
+                    drawLine(color = strokeColor, start = Offset(cx + rx, topCy), end = Offset(cx + rx, botCy), strokeWidth = 3.dp.toPx())
+
+                    drawOval(
+                        color = fillColor,
+                        topLeft = Offset(cx - rx, botCy - ry),
+                        size = Size(rx * 2f, ry * 2f)
+                    )
+                    drawOval(
+                        color = strokeColor,
+                        topLeft = Offset(cx - rx, botCy - ry),
+                        size = Size(rx * 2f, ry * 2f),
+                        style = Stroke(width = 3.dp.toPx())
+                    )
+
+                    drawOval(
+                        color = fillColor,
+                        topLeft = Offset(cx - rx, topCy - ry),
+                        size = Size(rx * 2f, ry * 2f)
+                    )
+                    drawOval(
+                        color = strokeColor,
+                        topLeft = Offset(cx - rx, topCy - ry),
+                        size = Size(rx * 2f, ry * 2f),
+                        style = Stroke(width = 3.dp.toPx())
+                    )
+                }
+            }
+        }
+
+        // Overlay Text Labels
+        when (id) {
+            "persegi" -> {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Row(
+                        modifier = Modifier.width(95.dp),
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        Text("s", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Purple)
+                    }
+                }
+            }
+            "segitiga" -> {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    // 'a' placed slightly lower below the base line
+                    Box(modifier = Modifier.fillMaxSize().padding(bottom = 6.dp), contentAlignment = Alignment.BottomCenter) {
+                        Text("a", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Purple)
+                    }
+                    // 't' at center height
+                    Box(modifier = Modifier.fillMaxSize().padding(bottom = 25.dp, start = 18.dp), contentAlignment = Alignment.Center) {
+                        Text("t", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Purple)
+                    }
+                }
+            }
+            "lingkaran" -> {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    Box(modifier = Modifier.fillMaxSize().padding(bottom = 18.dp), contentAlignment = Alignment.Center) {
+                        Text("r", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Purple)
+                    }
+                }
+            }
+            "tabung" -> {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    // 'r' on top radius
+                    Box(modifier = Modifier.fillMaxSize().padding(bottom = 45.dp), contentAlignment = Alignment.Center) {
+                        Text("r", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Purple)
+                    }
+                    // 't' on the right side OUTSIDE the cylinder
+                    Box(modifier = Modifier.fillMaxSize().padding(start = 105.dp), contentAlignment = Alignment.Center) {
+                        Text("t", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Purple)
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
 fun FormulaCalculatorCard(item: FormulaItem) {
     var input1 by remember { mutableStateOf("") }
     var input2 by remember { mutableStateOf("") }
@@ -214,6 +370,11 @@ fun FormulaCalculatorCard(item: FormulaItem) {
                 color = TextGray,
                 lineHeight = 22.sp
             )
+            Spacer(Modifier.height(8.dp))
+
+            // Ilustrasi Geometri dengan label rumus
+            GeometryIllustration(id = item.id)
+
             Spacer(Modifier.height(12.dp))
 
             when (item.id) {
