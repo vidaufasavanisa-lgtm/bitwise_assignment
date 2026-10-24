@@ -255,7 +255,7 @@ fun LearningMenuScreen(
 
         Spacer(Modifier.height(24.dp))
 
-        // Card 1: Fitur Pencabangan
+        // Card 1: BranchLab
         Card(
             onClick = onBranchingClick,
             shape = RoundedCornerShape(24.dp),
@@ -276,14 +276,14 @@ fun LearningMenuScreen(
                         .padding(horizontal = 14.dp)
                 ) {
                     Text(
-                        "Fitur Pencabangan",
+                        "BranchLab",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         color = TextDark
                     )
                     Spacer(Modifier.height(4.dp))
                     Text(
-                        "Latihan IF, Nested IF, dan Switch-Case",
+                        "Praktikum IF-ELSE, Nested IF, dan Switch-Case",
                         fontSize = 13.sp,
                         color = TextGray
                     )
